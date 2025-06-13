@@ -1,13 +1,15 @@
 package com.equals.concilia.controller;
 
-import java.util.List;
 import com.equals.concilia.model.Header;
 import com.equals.concilia.model.Transacao;
+import com.equals.concilia.model.Trailer;
+
 import com.equals.concilia.service.ArquivoParserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 import java.io.IOException;
 
 @RestController
@@ -33,6 +35,16 @@ public class ParserController {
     public ResponseEntity<List<Transacao>> parseTransacoes(@RequestParam("file") MultipartFile file) {
         try {
             return ResponseEntity.ok(parser.parseTransacoes(file));
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/trailer")
+    public ResponseEntity<Trailer> parseTrailer(@RequestParam("file") MultipartFile file) {
+        try {
+            Trailer trailer = parser.parseTrailer(file);
+            return ResponseEntity.ok(trailer);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

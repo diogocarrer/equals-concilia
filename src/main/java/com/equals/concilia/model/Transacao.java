@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Transacao {private String codigoRegistro;           
+public class Transacao {private String codigoRegistro;
     private String estabelecimento;
     private LocalDate dataInicial;
     private LocalDate dataEvento;
