@@ -63,14 +63,7 @@ public class ArquivoParserService {
         ClassPathResource res = new ClassPathResource("data/arquivo.txt");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.getInputStream()))) {
             List<Transacao> lista = new ArrayList<>();
-            String linha;
-
-            // pula o header (linha que começa com '0')
-            if ((linha = reader.readLine()) == null) {
-                return lista;
-            }
-
-            // para cada linha até encontrar o trailer ('9')
+            String linha = reader.readLine();
             while ((linha = reader.readLine()) != null) {
                 if (linha.startsWith("1")) {
                     lista.add(Transacao.fromLine(linha));

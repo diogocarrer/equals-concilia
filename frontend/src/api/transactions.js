@@ -1,10 +1,16 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: '/api',
+  timeout: 5000
+});
+
 export async function fetchTransactions(startDate, endDate) {
-  const res = await fetch(
-    `/api/transacoes?startDate=${startDate}&endDate=${endDate}`
-  )
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Erro ${res.status}: ${text}`)
+  const params = {};
+  if (startDate && endDate) {
+    params.startDate = startDate;
+    params.endDate   = endDate;
   }
-  return res.json()
+  const { data } = await api.get('/transacoes', { params });
+  return data;
 }

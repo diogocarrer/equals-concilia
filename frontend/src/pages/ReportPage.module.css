@@ -1,0 +1,19 @@
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #fafafa;
+}
+.loading {
+  text-align: center;
+  color: #aaa;
+}
+.error {
+  text-align: center;
+  color: #ff6b6b;
+}
