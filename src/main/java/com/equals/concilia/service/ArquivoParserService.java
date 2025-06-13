@@ -1,5 +1,8 @@
 package com.equals.concilia.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.equals.concilia.model.Transacao;
 import org.springframework.stereotype.Service;
 import com.equals.concilia.model.Header;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,5 +23,19 @@ public class ArquivoParserService {
                 throw new IOException("Linha de header inválida ou ausente");
             }
         }
+    }
+
+    public List<Transacao> parseTransacoes(MultipartFile file) throws IOException {
+        List<Transacao> lista = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            reader.readLine(); // pula header
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                if (linha.startsWith("1")) {
+                    lista.add(Transacao.fromLine(linha));
+                }
+            }
+        }
+        return lista;
     }
 }
