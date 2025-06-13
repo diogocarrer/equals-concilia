@@ -48,6 +48,9 @@ public class Transacao {private String codigoRegistro;
     private String reservado;
 
     public static Transacao fromLine(String linha) {
+        if (linha.length() < 392) {
+            linha = String.format("%-392s", linha);
+        }
         DateTimeFormatter dateFmt = DateTimeFormatter.BASIC_ISO_DATE;
         DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("HHmmss");
         Transacao t = new Transacao();

@@ -6,6 +6,7 @@ import com.equals.concilia.model.Trailer;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.ClassPathResource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,5 +57,28 @@ public class ArquivoParserService {
             throw new IOException("Linha de trailer não encontrada");
         }
         return Trailer.fromLine(linhaTrailer);
+    }
+
+    public List<Transacao> loadAllTransacoes() throws IOException {
+        ClassPathResource res = new ClassPathResource("data/arquivo.txt");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.getInputStream()))) {
+            List<Transacao> lista = new ArrayList<>();
+            String linha;
+
+            // pula o header (linha que começa com '0')
+            if ((linha = reader.readLine()) == null) {
+                return lista;
+            }
+
+            // para cada linha até encontrar o trailer ('9')
+            while ((linha = reader.readLine()) != null) {
+                if (linha.startsWith("1")) {
+                    lista.add(Transacao.fromLine(linha));
+                } else if (linha.startsWith("9")) {
+                    break;
+                }
+            }
+            return lista;
+        }
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.io.IOException;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api")
@@ -47,6 +49,23 @@ public class ParserController {
             return ResponseEntity.ok(trailer);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/transacoes")
+    public ResponseEntity<List<Transacao>> getTransacoes(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate")   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        try {
+            List<Transacao> todas = parser.loadAllTransacoes();
+            List<Transacao> filtradas = todas.stream()
+                    .filter(tx -> !tx.getDataEvento().isBefore(startDate)
+                            && !tx.getDataEvento().isAfter(endDate))
+                    .toList();
+            return ResponseEntity.ok(filtradas);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
