@@ -1,67 +1,61 @@
-# equals-concilia
+# ⚖️ equals-concilia
 
-**Conciliação Financeira**: ferramenta full‑stack que automatiza a leitura de extratos de transações, parse de registros e exibe relatório web.
-
----
-
-## 📋 Índice
-
-* [Descrição](#descrição)
-* [Tecnologias & Requisitos](#tecnologias--requisitos)
-* [Desenvolvedor](#desenvolvedor)
-* [Como Executar](#como-executar)
-  * [1. Clone o Repositório](#1-clone-o-repositório)
-  * [2. Backend (Spring Boot)](#2-backend-spring-boot)
-  * [3. Frontend (React/Vite)](#3-frontend-reactvite)
-  * [4. Verificar Persistência no Banco (H2)](#4-verificar-persistência-no-banco-h2)
-* [Endpoints Principais](#endpoints-principais)
-* [Observações](#observações)
+**Conciliação Financeira** — Aplicação full-stack que automatiza a leitura de extratos, interpreta registros e exibe um relatório interativo na web com filtros dinâmicos.
 
 ---
 
-## Descrição
+## 📚 Índice
 
-Este projeto fornece uma **solução completa** para conciliação financeira:
-
-1. **Leitura de arquivo**: parse automático de arquivo `.txt` com registros de transações.
-2. **API REST**: endpoints em Java/Spring Boot para header, detalhes e trailer.
-3. **Banco de dados**: persistência automática das transações lidas via H2.
-4. **Frontend**: página web em React/Vite que exibe relatório de vendas e permite filtro por data.
-
----
-
-## Tecnologias & Requisitos
-
-### Backend
-
-* **Java 17**
-* **Maven Wrapper** (`./mvnw`, `mvnw.cmd`)
-* **Spring Boot 3.5**
-* **Spring Data JPA**
-* **H2 Database (modo arquivo)**
-
-### Frontend
-
-* **Node.js** v14+
-* **npm**
-* **Vite** + **React 18**
-
-### Gerais
-
-* **Git**
-* Ambiente de terminal (funciona sem IDE)
+- [📝 Descrição](#📝-descrição)
+- [🧰 Tecnologias & Requisitos](#🧰-tecnologias--requisitos)
+- [🚀 Como Executar](#🚀-como-executar)
+  - [1. Clonar o Repositório](#1-clonar-o-repositório)
+  - [2. Backend (Spring Boot)](#2-backend-spring-boot)
+  - [3. Frontend (React/Vite)](#3-frontend-reactvite)
+  - [4. Acessar Banco de Dados (H2)](#4-acessar-banco-de-dados-h2)
+- [🙋‍♂️ Desenvolvedor](#🙋‍♂️-desenvolvedor)
+- [📌 Observações Finais](#📌-observações-finais)
 
 ---
 
-## Desenvolvedor
+## 📝 Descrição
 
-* **Diogo Carrer** ([diogocarrer](https://github.com/diogocarrer))
+Esta aplicação oferece uma solução completa para conciliação financeira:
+
+1. 📂 **Leitura automatizada** do arquivo `arquivo.txt` no início da aplicação.
+2. 🧠 **Parser inteligente** para Header, Transações e Trailer do extrato.
+3. 🗃️ **Persistência em banco H2** (modo arquivo) com versionamento por Flyway.
+4. 🌐 **Frontend em React** com relatório visual e filtros por data, valores e bandeira.
 
 ---
 
-## Como Executar
+## 🧰 Tecnologias & Requisitos
 
-### 1. Clone o Repositório
+### 🔙 Backend
+
+- Java 17
+- Maven Wrapper (`./mvnw`)
+- Spring Boot 3.5
+- Spring Data JPA
+- H2 Database (modo arquivo)
+- Flyway (migração de schema)
+
+### 🔜 Frontend
+
+- Node.js 14+
+- npm
+- React 18 + Vite
+
+### ⚙️ Gerais
+
+- Git
+- Terminal (funciona sem IDE)
+
+---
+
+## 🚀 Como Executar
+
+### 1. Clonar o Repositório
 
 ```bash
 git clone https://github.com/diogocarrer/equals-concilia.git
@@ -72,18 +66,17 @@ cd equals-concilia
 
 ```bash
 cd backend
-# Unix/macOS\ n\
+
+# Unix/macOS ou Git Bash no Windows
 ./mvnw clean install
-\
 ./mvnw spring-boot:run
-# Windows\ n\
+
+# Windows (CMD)
 mvnw.cmd clean install
-\
 mvnw.cmd spring-boot:run
 ```
 
-> A API estará em: `http://localhost:8080`
-> Exemplo de endpoint: `/api/transacoes?startDate=2025-06-01&endDate=2025-06-13`
+> A API estará disponível em: http://localhost:8080. As transações são carregadas automaticamente do arquivo arquivo.txt no startup.
 
 ### 3. Frontend (React/Vite)
 
@@ -93,48 +86,33 @@ npm install
 npm run dev
 ```
 
-> O app web estará em: `http://localhost:5173`
+> Acesse: http://localhost:5173
 
-### 4. Verificar Persistência no Banco (H2)
-
-1. Ao iniciar a aplicação, o arquivo arquivo.txt é automaticamente carregado e os dados são persistidos no banco H2, sem necessidade de upload manual.
-
-2. Acesse o banco via navegador:
+### 4. Acessar Banco de Dados (H2)
 
 ```bash
 http://localhost:8080/h2-console
 ```
 
-3. Use os dados:
-
 - JDBC URL: jdbc:h2:file:./data/concilia-db
-- Username: sa
+- User: sa
 - Password: (deixe em branco)
 
-4. Execute:
+Execute:
 
 ```sql
 SELECT * FROM transacao;
 ```
 
-> O banco persiste os dados em disco. Mesmo após reiniciar a aplicação, os dados continuam salvos.
-
 ---
 
-## Endpoints Principais
+## 🙋‍♂️ Desenvolvedor
 
-* `GET /api/transacoes?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD`
-  Retorna lista de transações no período.
-* `POST /api/header`
-  Upload do arquivo para parsing do header.
-* `POST /api/transacoes`
-  Upload para parsing de todos os detalhes.
-* `POST /api/trailer`
-  Upload para parsing do trailer.
-
+* **Diogo Carrer** ([diogocarrer](https://github.com/diogocarrer))
+  
 ---
 
-## Observações
+## 📌 Observações
 
 * O arquivo de exemplo `arquivo.txt` está em `backend/src/main/resources/data/arquivo.txt`.
 * Funciona em qualquer IDE ou direto no terminal, garantindo portabilidade.
