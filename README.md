@@ -10,10 +10,10 @@
 * [Tecnologias & Requisitos](#tecnologias--requisitos)
 * [Desenvolvedor](#desenvolvedor)
 * [Como Executar](#como-executar)
-
   * [1. Clone o Repositório](#1-clone-o-repositório)
   * [2. Backend (Spring Boot)](#2-backend-spring-boot)
   * [3. Frontend (React/Vite)](#3-frontend-reactvite)
+  * [4. Verificar Persistência no Banco (H2)](#4-verificar-persistência-no-banco-h2)
 * [Endpoints Principais](#endpoints-principais)
 * [Observações](#observações)
 
@@ -25,7 +25,8 @@ Este projeto fornece uma **solução completa** para conciliação financeira:
 
 1. **Leitura de arquivo**: parse automático de arquivo `.txt` com registros de transações.
 2. **API REST**: endpoints em Java/Spring Boot para header, detalhes e trailer.
-3. **Frontend**: página web em React/Vite que exibe relatório de vendas e permite filtro por data.
+3. **Banco de dados**: persistência automática das transações lidas via H2.
+4. **Frontend**: página web em React/Vite que exibe relatório de vendas e permite filtro por data.
 
 ---
 
@@ -36,6 +37,8 @@ Este projeto fornece uma **solução completa** para conciliação financeira:
 * **Java 17**
 * **Maven Wrapper** (`./mvnw`, `mvnw.cmd`)
 * **Spring Boot 3.5**
+* **Spring Data JPA**
+* **H2 Database (modo arquivo)**
 
 ### Frontend
 
@@ -91,6 +94,30 @@ npm run dev
 ```
 
 > O app web estará em: `http://localhost:5173`
+
+### 4. Verificar Persistência no Banco (H2)
+
+1. Ao iniciar a aplicação, o arquivo arquivo.txt é automaticamente carregado e os dados são persistidos no banco H2, sem necessidade de upload manual.
+
+2. Acesse o banco via navegador:
+
+```bash
+http://localhost:8080/h2-console
+```
+
+3. Use os dados:
+
+- JDBC URL: jdbc:h2:file:./data/concilia-db
+- Username: sa
+- Password: (deixe em branco)
+
+4. Execute:
+
+```sql
+SELECT * FROM transacao;
+```
+
+> O banco persiste os dados em disco. Mesmo após reiniciar a aplicação, os dados continuam salvos.
 
 ---
 
