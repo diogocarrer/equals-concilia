@@ -4,6 +4,8 @@ import com.equals.concilia.model.Header;
 import com.equals.concilia.model.Transacao;
 import com.equals.concilia.model.Trailer;
 
+import com.equals.concilia.repository.TransacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.ClassPathResource;
@@ -15,6 +17,10 @@ import java.util.List;
 
 @Service
 public class ArquivoParserService {
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
+
     public Header parseHeader(MultipartFile file) throws IOException {
         try (BufferedReader reader =
                      new BufferedReader(new InputStreamReader(file.getInputStream()))) {
@@ -35,7 +41,9 @@ public class ArquivoParserService {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 if (linha.startsWith("1")) {
-                    lista.add(Transacao.fromLine(linha));
+                    Transacao tx = Transacao.fromLine(linha);
+                    transacaoRepository.save(tx);
+                    lista.add(tx);
                 }
             }
         }

@@ -4,8 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import jakarta.persistence.*;
 
-public class Transacao {private String codigoRegistro;
+@Entity
+public class Transacao {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String codigoRegistro;
     private String estabelecimento;
     private LocalDate dataInicial;
     private LocalDate dataEvento;
