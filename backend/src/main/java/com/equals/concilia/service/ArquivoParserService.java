@@ -22,9 +22,13 @@ public class ArquivoParserService {
     private TransacaoRepository transacaoRepository;
 
     public void carregarTransacoesDeArquivoExemplo() throws IOException {
+        if (transacaoRepository.count() > 0) {
+            System.out.println("Transações já existentes no banco. Ignorando leitura do arquivo.");
+            return;
+        }
+
         ClassPathResource res = new ClassPathResource("data/arquivo.txt");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.getInputStream()))) {
-            List<Transacao> lista = new ArrayList<>();
             String linha;
             while ((linha = reader.readLine()) != null) {
                 if (linha.startsWith("1")) {
@@ -33,6 +37,8 @@ public class ArquivoParserService {
                 }
             }
         }
+
+        System.out.println("Transações carregadas: " + transacaoRepository.count());
     }
 
     public Header parseHeader(MultipartFile file) throws IOException {
