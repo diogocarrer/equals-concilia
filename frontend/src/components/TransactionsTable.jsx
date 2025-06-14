@@ -10,14 +10,27 @@ import styles from './TransactionsTable.module.css';
 export default function TransactionsTable({ data }) {
   const columns = React.useMemo(() => [
     {
-      header: 'Data',
+      header: 'Estabelecimento',
+      accessorKey: 'estabelecimento'
+    },
+    {
+      header: 'Data Inicial',
+      accessorKey: 'dataInicial',
+      cell: info => format(parseISO(info.getValue()), 'dd/MM/yyyy')
+    },
+    {
+      header: 'Data Evento',
       accessorKey: 'dataEvento',
       cell: info => format(parseISO(info.getValue()), 'dd/MM/yyyy')
     },
     {
+      header: 'Previsão Pgto',
+      accessorKey: 'dataPrevistaPagamento',
+      cell: info => format(parseISO(info.getValue()), 'dd/MM/yyyy')
+    },
+    {
       header: 'Hora',
-      accessorKey: 'horaEvento',
-      cell: info => info.getValue()
+      accessorKey: 'horaEvento'
     },
     {
       header: 'Total (R$)',
@@ -32,21 +45,13 @@ export default function TransactionsTable({ data }) {
         Number(info.getValue()).toLocaleString('pt-BR', { minimumFractionDigits: 2 })
     },
     {
+      header: 'Parcelas',
+      accessorKey: 'quantidadeParcelas'
+    },    
+    {
       header: 'Bandeira',
       accessorKey: 'instituicaoBandeira'
     },
-    {
-      header: 'Estabelecimento',
-      accessorKey: 'estabelecimento'
-    },
-    {
-      header: 'Tipo Transação',
-      accessorKey: 'tipoTransacao'
-    },
-    {
-      header: 'Código Pedido',
-      accessorKey: 'codigoPedido'
-    }
   ], []);
 
   const table = useReactTable({

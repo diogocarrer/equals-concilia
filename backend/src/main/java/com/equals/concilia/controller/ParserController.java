@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -51,30 +52,50 @@ public class ParserController {
     }
 
     @GetMapping("/transacoes")
-    public ResponseEntity<List<Transacao>> getTransacoes(
+    public ResponseEntity<List<Transacao>> getTransacoes() {
+        try {
+            return ResponseEntity.ok(parser.loadAllTransacoes());
+        } catch (IOException e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @GetMapping("/transacoes/filtradas")
+    public ResponseEntity<List<Transacao>> getTransacoesFiltradas(
             @RequestParam(value = "startDate", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate startDate,
 
             @RequestParam(value = "endDate", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate endDate
+            LocalDate endDate,
+
+            @RequestParam(value = "valorTotalMin", required = false) Double valorTotalMin,
+            @RequestParam(value = "valorTotalMax", required = false) Double valorTotalMax,
+
+            @RequestParam(value = "valorLiquidoMin", required = false) Double valorLiquidoMin,
+            @RequestParam(value = "valorLiquidoMax", required = false) Double valorLiquidoMax,
+
+            @RequestParam(value = "bandeira", required = false) String bandeira
     ) {
         try {
             List<Transacao> todas = parser.loadAllTransacoes();
 
-            if (startDate != null && endDate != null) {
-                todas = todas.stream()
-                        .filter(tx ->
-                                !tx.getDataEvento().isBefore(startDate) &&
-                                        !tx.getDataEvento().isAfter(endDate)
-                        )
-                        .toList();
-            }
+            List<Transacao> filtradas = todas.stream()
+                    .filter(tx -> startDate == null || !tx.getDataEvento().isBefore(startDate))
+                    .filter(tx -> endDate == null   || !tx.getDataEvento().isAfter(endDate))
+                    .filter(tx -> valorTotalMin == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMin)) >= 0)
+                    .filter(tx -> valorTotalMax == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMax)) <= 0)
+                    .filter(tx -> valorLiquidoMin == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMin)) >= 0)
+                    .filter(tx -> valorLiquidoMax == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMax)) <= 0)
+                    .filter(tx -> bandeira == null || bandeira.isBlank() || bandeira.equalsIgnoreCase(tx.getInstituicaoBandeira()))
+                    .toList();
 
-            return ResponseEntity.ok(todas);
+            return ResponseEntity.ok(filtradas);
         } catch (IOException e) {
             return ResponseEntity.status(500).build();
         }
+
     }
+
 }

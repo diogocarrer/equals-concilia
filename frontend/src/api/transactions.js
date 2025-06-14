@@ -5,12 +5,7 @@ const api = axios.create({
   timeout: 5000
 });
 
-export async function fetchTransactions(startDate, endDate) {
-  const params = {};
-  if (startDate && endDate) {
-    params.startDate = startDate;
-    params.endDate   = endDate;
-  }
-  const { data } = await api.get('/transacoes', { params });
+export async function fetchTransactions(filters = {}) {
+  const { data } = await api.get('/transacoes/filtradas', { params: filters });
   return data;
 }
