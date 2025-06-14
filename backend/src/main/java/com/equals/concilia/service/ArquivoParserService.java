@@ -21,6 +21,20 @@ public class ArquivoParserService {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
+    public void carregarTransacoesDeArquivoExemplo() throws IOException {
+        ClassPathResource res = new ClassPathResource("data/arquivo.txt");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.getInputStream()))) {
+            List<Transacao> lista = new ArrayList<>();
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                if (linha.startsWith("1")) {
+                    Transacao tx = Transacao.fromLine(linha);
+                    transacaoRepository.save(tx);
+                }
+            }
+        }
+    }
+
     public Header parseHeader(MultipartFile file) throws IOException {
         try (BufferedReader reader =
                      new BufferedReader(new InputStreamReader(file.getInputStream()))) {
@@ -67,19 +81,7 @@ public class ArquivoParserService {
         return Trailer.fromLine(linhaTrailer);
     }
 
-    public List<Transacao> loadAllTransacoes() throws IOException {
-        ClassPathResource res = new ClassPathResource("data/arquivo.txt");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.getInputStream()))) {
-            List<Transacao> lista = new ArrayList<>();
-            String linha = reader.readLine();
-            while ((linha = reader.readLine()) != null) {
-                if (linha.startsWith("1")) {
-                    lista.add(Transacao.fromLine(linha));
-                } else if (linha.startsWith("9")) {
-                    break;
-                }
-            }
-            return lista;
-        }
+    public List<Transacao> loadAllTransacoes() {
+        return transacaoRepository.findAll();
     }
 }

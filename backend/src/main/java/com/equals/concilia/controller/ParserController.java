@@ -53,11 +53,7 @@ public class ParserController {
 
     @GetMapping("/transacoes")
     public ResponseEntity<List<Transacao>> getTransacoes() {
-        try {
-            return ResponseEntity.ok(parser.loadAllTransacoes());
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
+        return ResponseEntity.ok(parser.loadAllTransacoes());
     }
 
     @GetMapping("/transacoes/filtradas")
@@ -78,24 +74,20 @@ public class ParserController {
 
             @RequestParam(value = "bandeira", required = false) String bandeira
     ) {
-        try {
-            List<Transacao> todas = parser.loadAllTransacoes();
+        List<Transacao> todas = parser.loadAllTransacoes();
 
-            List<Transacao> filtradas = todas.stream()
-                    .filter(tx -> startDate == null || !tx.getDataEvento().isBefore(startDate))
-                    .filter(tx -> endDate == null   || !tx.getDataEvento().isAfter(endDate))
-                    .filter(tx -> valorTotalMin == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMin)) >= 0)
-                    .filter(tx -> valorTotalMax == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMax)) <= 0)
-                    .filter(tx -> valorLiquidoMin == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMin)) >= 0)
-                    .filter(tx -> valorLiquidoMax == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMax)) <= 0)
-                    .filter(tx -> bandeira == null || bandeira.isBlank() || bandeira.equalsIgnoreCase(tx.getInstituicaoBandeira()))
-                    .toList();
+        List<Transacao> filtradas = todas.stream()
+                .filter(tx -> startDate == null || !tx.getDataEvento().isBefore(startDate))
+                .filter(tx -> endDate == null || !tx.getDataEvento().isAfter(endDate))
+                .filter(tx -> valorTotalMin == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMin)) >= 0)
+                .filter(tx -> valorTotalMax == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMax)) <= 0)
+                .filter(tx -> valorLiquidoMin == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMin)) >= 0)
+                .filter(tx -> valorLiquidoMax == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMax)) <= 0)
+                .filter(tx -> bandeira == null || bandeira.isBlank() || bandeira.equalsIgnoreCase(tx.getInstituicaoBandeira()))
+                .toList();
 
-            return ResponseEntity.ok(filtradas);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
-
+        return ResponseEntity.ok(filtradas);
     }
+
 
 }
