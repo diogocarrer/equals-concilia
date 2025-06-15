@@ -42,8 +42,7 @@ public class ArquivoParserService {
     }
 
     public Header parseHeader(MultipartFile file) throws IOException {
-        try (BufferedReader reader =
-                     new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
             String linha = reader.readLine();
             if (linha != null && linha.startsWith("0")) {
@@ -57,7 +56,7 @@ public class ArquivoParserService {
     public List<Transacao> parseTransacoes(MultipartFile file) throws IOException {
         List<Transacao> lista = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            reader.readLine(); // pula header
+            reader.readLine();
             String linha;
             while ((linha = reader.readLine()) != null) {
                 if (linha.startsWith("1")) {

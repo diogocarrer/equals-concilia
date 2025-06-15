@@ -5,7 +5,7 @@ import {
   flexRender
 } from '@tanstack/react-table';
 import { parseISO, format } from 'date-fns';
-import styles from './TransactionsTable.module.css';
+import styles from '../styles/TransactionsTable.module.css';
 
 export default function TransactionsTable({ data }) {
   const columns = React.useMemo(() => [

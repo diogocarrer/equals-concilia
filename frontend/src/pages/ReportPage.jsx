@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchTransactions } from '../api/transactions';
 import Filter from '../components/Filter';
 import TransactionsTable from '../components/TransactionsTable';
-import styles from './ReportPage.module.css';
+import styles from '../styles/ReportPage.module.css';
 
 export default function ReportPage() {
   const [startDate, setStartDate] = useState('');
@@ -12,7 +12,7 @@ export default function ReportPage() {
   const [valorLiquidoMin, setValorLiquidoMin] = useState('');
   const [valorLiquidoMax, setValorLiquidoMax] = useState('');
   const [bandeiras, setBandeiras] = useState([]);
-  const [bandeira, setBandeira] = useState([]);
+  const [bandeira, setBandeira] = useState('');
   const [transactions, setTransactions] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
