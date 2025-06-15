@@ -9,8 +9,7 @@ export default function ReportPage() {
   const [endDate, setEndDate] = useState('');
   const [valorTotalMin, setValorTotalMin]     = useState('');
   const [valorTotalMax, setValorTotalMax]     = useState('');
-  const [valorLiquidoMin, setValorLiquidoMin] = useState('');
-  const [valorLiquidoMax, setValorLiquidoMax] = useState('');
+  const [dataPagamento, setDataPagamento] = useState('');
   const [bandeiras, setBandeiras] = useState([]);
   const [bandeira, setBandeira] = useState('');
   const [transactions, setTransactions] = useState([]);
@@ -50,11 +49,9 @@ export default function ReportPage() {
         endDate,
         valorTotalMin: parseToNumber(valorTotalMin),
         valorTotalMax: parseToNumber(valorTotalMax),
-        valorLiquidoMin: parseToNumber(valorLiquidoMin),
-        valorLiquidoMax: parseToNumber(valorLiquidoMax),
+        dataPagamento,
         bandeira
       });
-
       setTransactions(list);
     } catch (error) {
       console.error(error);
@@ -63,6 +60,15 @@ export default function ReportPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClearFilters = () => {
+    setStartDate('');
+    setEndDate('');
+    setValorTotalMin('');
+    setValorTotalMax('');
+    setDataPagamento('');
+    setBandeira('');
   };
 
   return (
@@ -88,14 +94,13 @@ export default function ReportPage() {
         valorTotalMax={valorTotalMax}
         onValorTotalMinChange={setValorTotalMin}
         onValorTotalMaxChange={setValorTotalMax}
-        valorLiquidoMin={valorLiquidoMin}
-        valorLiquidoMax={valorLiquidoMax}
-        onValorLiquidoMinChange={setValorLiquidoMin}
-        onValorLiquidoMaxChange={setValorLiquidoMax}
+        dataPagamento={dataPagamento}
+        onDataPagamentoChange={setDataPagamento}
         bandeira={bandeira}
         onBandeiraChange={setBandeira}
         bandeiras={bandeiras}
         onSearch={handleSearch}
+        onClear={handleClearFilters}
       />
 
       {loading && <p className={styles.loading}>Carregando...</p>}

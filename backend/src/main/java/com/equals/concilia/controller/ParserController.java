@@ -69,8 +69,9 @@ public class ParserController {
             @RequestParam(value = "valorTotalMin", required = false) Double valorTotalMin,
             @RequestParam(value = "valorTotalMax", required = false) Double valorTotalMax,
 
-            @RequestParam(value = "valorLiquidoMin", required = false) Double valorLiquidoMin,
-            @RequestParam(value = "valorLiquidoMax", required = false) Double valorLiquidoMax,
+            @RequestParam(value = "dataPagamento", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataPagamento,
 
             @RequestParam(value = "bandeira", required = false) String bandeira
     ) {
@@ -81,13 +82,10 @@ public class ParserController {
                 .filter(tx -> endDate == null || !tx.getDataEvento().isAfter(endDate))
                 .filter(tx -> valorTotalMin == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMin)) >= 0)
                 .filter(tx -> valorTotalMax == null || tx.getValorTotal().compareTo(BigDecimal.valueOf(valorTotalMax)) <= 0)
-                .filter(tx -> valorLiquidoMin == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMin)) >= 0)
-                .filter(tx -> valorLiquidoMax == null || tx.getValorLiquido().compareTo(BigDecimal.valueOf(valorLiquidoMax)) <= 0)
+                .filter(tx -> dataPagamento == null || tx.getDataPrevistaPagamento().isEqual(dataPagamento))
                 .filter(tx -> bandeira == null || bandeira.isBlank() || bandeira.equalsIgnoreCase(tx.getInstituicaoBandeira()))
                 .toList();
 
         return ResponseEntity.ok(filtradas);
     }
-
-
 }
