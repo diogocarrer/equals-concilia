@@ -1,31 +1,20 @@
 # ⚖️ equals-concilia
 
-**Conciliação Financeira** — Aplicação full-stack que automatiza a leitura de extratos, interpreta registros e exibe um relatório interativo na web com filtros dinâmicos.
+Aplicação full-stack de conciliação financeira desenvolvida para o processo seletivo da Equals. A solução automatiza a leitura de arquivos de extrato, interpreta os dados, armazena as transações em um banco de dados e exibe um relatório interativo com filtros dinâmicos em uma interface web.
 
 ---
 
 ## 📚 Índice
 
-- [📝 Descrição](#📝-descrição)
-- [🧰 Tecnologias & Requisitos](#🧰-tecnologias--requisitos)
-- [🚀 Como Executar](#🚀-como-executar)
+- [🧰 Tecnologias & Requisitos](#tecnologias--requisitos)
+- [🛠️ Instalação de Ferramentas](#🛠instalação-de-ferramentas)
+- [🚀 Como Executar](#como-executar)
   - [1. Clonar o Repositório](#1-clonar-o-repositório)
   - [2. Backend (Spring Boot)](#2-backend-spring-boot)
   - [3. Frontend (React/Vite)](#3-frontend-reactvite)
   - [4. Acessar Banco de Dados (H2)](#4-acessar-banco-de-dados-h2)
-- [🙋‍♂️ Desenvolvedor](#🙋‍♂️-desenvolvedor)
-- [📌 Observações Finais](#📌-observações-finais)
-
----
-
-## 📝 Descrição
-
-Esta aplicação oferece uma solução completa para conciliação financeira:
-
-1. 📂 **Leitura automatizada** do arquivo `arquivo.txt` no início da aplicação.
-2. 🧠 **Parser inteligente** para Header, Transações e Trailer do extrato.
-3. 🗃️ **Persistência em banco H2** (modo arquivo) com versionamento por Flyway.
-4. 🌐 **Frontend em React** com relatório visual e filtros por data, valores e bandeira.
+- [🏗️ Arquitetura do Projeto](#-arquitetura-do-projeto)
+- [🙋‍♂️ Desenvolvedor](#🙋‍♂desenvolvedor)
 
 ---
 
@@ -50,6 +39,32 @@ Esta aplicação oferece uma solução completa para conciliação financeira:
 
 - Git
 - Terminal (funciona sem IDE)
+
+---
+
+## 🛠️ Instalação de Ferramentas (Pré-requisitos)
+
+Antes de executar o projeto, é necessário garantir que as seguintes ferramentas estejam instaladas no seu ambiente:
+
+### ✅ Java 17
+- Necessário para rodar o backend com Spring Boot.
+- Verifique com: `java -version`
+- Download: https://adoptium.net/pt/temurin/releases/
+
+### ✅ Node.js (v14 ou superior)
+- Necessário para rodar o frontend com Vite.
+- Verifique com: `node -v`
+- Download: https://nodejs.org/
+
+### ✅ npm (gerenciador de pacotes do Node)
+- Já vem com o Node.js.
+- Verifique com: `npm -v`
+
+### ✅ Git
+- Necessário para clonar o repositório.
+- Download: https://git-scm.com/
+
+> Todas as etapas de execução podem ser feitas via terminal, sem depender de uma IDE específica.
 
 ---
 
@@ -105,14 +120,53 @@ SELECT * FROM transacao;
 ```
 
 ---
+## 🏗️ Arquitetura do Projeto
+O projeto está dividido em duas camadas principais: backend (API REST em Java) e frontend (interface web com Vite/React).
+
+```bash
+equals-concilia/
+├── backend/
+│   ├── pom.xml                          # Gerenciador de dependências Maven
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/com/equals/concilia/
+│   │       │   ├── config/
+│   │       │   │   └── StartupRunner.java            # Executa carga automática do arquivo .txt ao iniciar o sistema
+│   │       │   ├── controller/
+│   │       │   │   └── ParserController.java         # Endpoints REST para upload e visualização dos dados
+│   │       │   ├── model/
+│   │       │   │   ├── Header.java                   # Modelo para linha header do arquivo
+│   │       │   │   ├── Trailer.java                  # Modelo para linha trailer
+│   │       │   │   └── Transacao.java                # Entidade JPA principal da aplicação (representa uma venda)
+│   │       │   ├── repository/
+│   │       │   │   └── TransacaoRepository.java      # Interface JPA para persistência das transações
+│   │       │   ├── service/
+│   │       │   │   └── ArquivoParserService.java     # Serviço responsável por ler, interpretar e salvar os dados
+│   │       │   └── ConciliaApplication.java          # Classe principal da aplicação Spring Boot
+│   │       └── resources/
+│   │           ├── application.properties            # Configuração do banco de dados e porta do servidor
+│   │           ├── db/migration/
+│   │           │   └── V1_create_transacao_table.sql # Script Flyway para criação da tabela no banco
+│   │           └── data/
+│   │               └── arquivo.txt                   # Arquivo de exemplo com dados brutos de transações
+│
+├── frontend/
+│   ├── App.jsx                          # Componente principal da aplicação
+│   ├── main.jsx                         # Ponto de entrada React (createRoot)
+│   ├── pages/
+│   │   └── ReportPage.jsx               # Página principal com filtro e relatório de transações
+│   ├── components/
+│   │   ├── Filter.jsx                   # Formulário de filtros para buscar transações
+│   │   └── TransactionsTable.jsx       # Tabela com os dados das transações filtradas
+│   └── api/
+│       └── transactions.js             # Comunicação com a API backend via axios
+│
+└── README.md
+```
+
+---
 
 ## 🙋‍♂️ Desenvolvedor
 
 * **Diogo Carrer** ([diogocarrer](https://github.com/diogocarrer))
-  
----
 
-## 📌 Observações
-
-* O arquivo de exemplo `arquivo.txt` está em `backend/src/main/resources/data/arquivo.txt`.
-* Funciona em qualquer IDE ou direto no terminal, garantindo portabilidade.
