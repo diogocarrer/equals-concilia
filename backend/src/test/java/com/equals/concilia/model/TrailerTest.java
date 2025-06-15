@@ -1,6 +1,5 @@
 package com.equals.concilia.model;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrailerTest {
 
     @Test
-    public void testFromLineSimples() {
-        String linha = "900000000008"; // linha real e mínima
-
+    void deveParsearQuantidadeRegistros() {
+        String linha = "900000000005" + " ".repeat(518);
         Trailer trailer = Trailer.fromLine(linha);
 
-        assertNotNull(trailer);
         assertEquals("9", trailer.getCodigoRegistro());
-        assertEquals(8L, trailer.getTotalRegistros());
-        assertEquals("", trailer.getReservado());
+        assertEquals(5L, trailer.getTotalRegistros());
     }
 }

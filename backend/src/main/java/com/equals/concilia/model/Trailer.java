@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Trailer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String codigoRegistro;
     private long totalRegistros;
     private String reservado;
