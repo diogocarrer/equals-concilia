@@ -11,8 +11,8 @@ Aplicação full-stack de conciliação financeira desenvolvida para o processo 
 - [🚀 Como Executar](#como-executar)
   - [1. Clonar o Repositório](#1-clonar-o-repositório)
   - [2. Backend (Spring Boot)](#2-backend-spring-boot)
-  - [3. Frontend (React/Vite)](#3-frontend-reactvite)
-  - [4. Acessar Banco de Dados (H2)](#4-acessar-banco-de-dados-h2)
+  - [3. Acessar Banco de Dados (H2)](#4-acessar-banco-de-dados-h2)
+  - [4. Frontend (React/Vite)](#3-frontend-reactvite)
 - [🏗️ Arquitetura do Projeto](#-arquitetura-do-projeto)
 - [🙋‍♂️ Desenvolvedor](#🙋‍♂desenvolvedor)
 
@@ -91,19 +91,13 @@ mvnw.cmd clean install
 mvnw.cmd spring-boot:run
 ```
 
-> A API estará disponível em: http://localhost:8080. As transações são carregadas automaticamente do arquivo arquivo.txt no startup.
+> A API estará disponível em: [http://localhost:8080](http://localhost:8080)  
+> - Endpoint de listagem: [http://localhost:8080/api/transacoes](http://localhost:8080/api/transacoes)  
+> - Console do banco de dados H2: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+>
+> As transações são carregadas automaticamente do arquivo `arquivo.txt` ao iniciar o sistema, caso o banco esteja vazio.
 
-### 3. Frontend (React/Vite)
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-> Acesse: http://localhost:5173
-
-### 4. Acessar Banco de Dados (H2)
+### 3. Acessar Banco de Dados (H2)
 
 ```bash
 http://localhost:8080/h2-console
@@ -119,6 +113,16 @@ Execute:
 SELECT * FROM transacao;
 ```
 
+### 4. Frontend (React/Vite)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+> Acesse: http://localhost:5173
+> 
 ---
 ## 🏗️ Arquitetura do Projeto
 O projeto está dividido em duas camadas principais: backend (API REST em Java) e frontend (interface web com Vite/React).
