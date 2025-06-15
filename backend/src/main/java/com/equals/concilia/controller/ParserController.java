@@ -1,15 +1,10 @@
 package com.equals.concilia.controller;
 
-import com.equals.concilia.model.Header;
 import com.equals.concilia.model.Transacao;
-import com.equals.concilia.model.Trailer;
 import com.equals.concilia.service.ArquivoParserService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -60,23 +55,5 @@ public class ParserController {
                 .toList();
 
         return ResponseEntity.ok(filtradas);
-    }
-
-    @RestController
-    public class HomeController {
-
-        @GetMapping("/")
-        public String home() {
-            return """
-            <html>
-              <head><title>Equals Concilia</title></head>
-              <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-                <h1>✅ API Equals Concilia está rodando!</h1>
-                <p>Use <a href='/api/transacoes'>/api/transacoes</a> para listar transações.</p>
-                <p>Acesse o <a href='/h2-console'>H2 Console</a> para visualizar o banco de dados.</p>
-              </body>
-            </html>
-        """;
-        }
     }
 }
