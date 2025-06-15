@@ -45,8 +45,8 @@ export default function Filter({
       </div>
 
       <div className={styles.buttonContainer}>
-        <button type="submit" className={styles.button}>Filtrar</button>
-        <button type="button" className={styles.buttonClear} onClick={onClear}>Limpar Filtros</button>
+        <button type="submit" className={styles.buttonFilter}>Filtrar</button>
+        <button type="button" className={styles.buttonFilter} onClick={onClear}>Limpar Filtros</button>
       </div>
     </form>
   );

@@ -3,6 +3,7 @@ import { fetchTransactions } from '../api/transactions';
 import Filter from '../components/Filter';
 import TransactionsTable from '../components/TransactionsTable';
 import styles from '../styles/ReportPage.module.css';
+import { exportRelatorioCompleto } from '../utils/exportToPDF';
 
 export default function ReportPage() {
   const [startDate, setStartDate] = useState('');
@@ -83,6 +84,14 @@ export default function ReportPage() {
         >
           Acessar Banco de Dados
         </a>
+        <button
+          onClick={() => exportRelatorioCompleto({
+            transacoes: transactions
+          })}
+          className={styles.pdfButton}
+        >
+          Gerar PDF
+        </button>
       </div>
 
       <Filter
