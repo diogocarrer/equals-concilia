@@ -65,10 +65,19 @@ export default function ReportPage() {
     }
   };
 
-
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Relatório de Vendas</h1>
+      <div className={styles.h2linkContainer}>
+        <a
+          href="http://localhost:8080/h2-console"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.h2link}
+        >
+          Acessar Banco de Dados
+        </a>
+      </div>
 
       <Filter
         start={startDate}
