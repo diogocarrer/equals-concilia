@@ -24,33 +24,6 @@ public class ParserController {
         this.parser = parser;
     }
 
-    @PostMapping("/header")
-    public ResponseEntity<Header> parseHeader(@RequestParam("file") MultipartFile file) {
-        try {
-            return ResponseEntity.ok(parser.parseHeader(file));
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
-
-    @PostMapping("/transacoes")
-    public ResponseEntity<List<Transacao>> parseTransacoes(@RequestParam("file") MultipartFile file) {
-        try {
-            return ResponseEntity.ok(parser.parseTransacoes(file));
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
-
-    @PostMapping("/trailer")
-    public ResponseEntity<Trailer> parseTrailer(@RequestParam("file") MultipartFile file) {
-        try {
-            return ResponseEntity.ok(parser.parseTrailer(file));
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
-
     @GetMapping("/transacoes")
     public ResponseEntity<List<Transacao>> getTransacoes() {
         return ResponseEntity.ok(parser.loadAllTransacoes());

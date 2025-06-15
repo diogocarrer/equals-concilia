@@ -1,9 +1,15 @@
 package com.equals.concilia.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Entity
 public class Header {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String codigoRegistro;
     private String numeroEstabelecimento;
     private LocalDate dataGeracao;

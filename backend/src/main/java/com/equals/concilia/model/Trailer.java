@@ -1,6 +1,11 @@
 package com.equals.concilia.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Trailer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String codigoRegistro;
     private long totalRegistros;
     private String reservado;
