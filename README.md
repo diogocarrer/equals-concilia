@@ -7,14 +7,14 @@ Aplicação full-stack de conciliação financeira desenvolvida para o processo 
 ## 📚 Índice
 
 - [🧰 Tecnologias & Requisitos](#tecnologias--requisitos)
-- [🛠️ Instalação de Ferramentas](#🛠instalação-de-ferramentas)
+- [🛠️ Instalação de Ferramentas](#instalação-de-ferramentas)
 - [🚀 Como Executar](#como-executar)
   - [1. Clonar o Repositório](#1-clonar-o-repositório)
   - [2. Backend (Spring Boot)](#2-backend-spring-boot)
-  - [3. Acessar Banco de Dados (H2)](#4-acessar-banco-de-dados-h2)
-  - [4. Frontend (React/Vite)](#3-frontend-reactvite)
-- [🏗️ Arquitetura do Projeto](#-arquitetura-do-projeto)
-- [🙋‍♂️ Desenvolvedor](#🙋‍♂desenvolvedor)
+  - [3. Acessar Banco de Dados (H2)](#3-acessar-banco-de-dados-h2)
+  - [4. Frontend (React/Vite)](#4-frontend-reactvite)
+- [🏗️ Arquitetura do Projeto](#arquitetura-do-projeto)
+- [🙋‍♂️ Desenvolvedor](#desenvolvedor)
 
 ---
 
@@ -81,15 +81,25 @@ cd equals-concilia
 
 ```bash
 cd backend
-
-# Unix/macOS ou Git Bash no Windows
+```
+Para sistemas Windows ou Linux:
+```bash
 ./mvnw clean install
 ./mvnw spring-boot:run
-
-# Windows (CMD)
+```
+ou
+```bash
 mvnw.cmd clean install
 mvnw.cmd spring-boot:run
 ```
+
+Para sistemas macOS com Apple Silicon (M1/M2):
+Em alguns casos, é necessário especificar o caminho correto do JAVA_HOME:
+```bash
+sudo JAVA_HOME=$(/usr/libexec/java_home) sh ./mvnw clean install
+sudo JAVA_HOME=$(/usr/libexec/java_home) sh ./mvnw spring-boot:run
+```
+> 💡 Explicação: Em Macs com chip Apple (Silicon), o Maven Wrapper às vezes não encontra automaticamente a versão correta do Java. Usar JAVA_HOME=$(/usr/libexec/java_home) garante que ele aponte para a versão instalada via SDKMAN ou JDK oficial.
 
 > A API estará disponível em: [http://localhost:8080](http://localhost:8080)  
 > - Endpoint de listagem: [http://localhost:8080/api/transacoes](http://localhost:8080/api/transacoes)  
@@ -99,9 +109,7 @@ mvnw.cmd spring-boot:run
 
 ### 3. Acessar Banco de Dados (H2)
 
-```bash
-http://localhost:8080/h2-console
-```
+Acesse em: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
 
 - JDBC URL: jdbc:h2:file:./data/concilia-db
 - User: sa
@@ -111,10 +119,13 @@ Execute:
 
 ```sql
 SELECT * FROM transacao;
+SELECT * FROM header;
+SELECT * FROM trailer;
 ```
 
 ### 4. Frontend (React/Vite)
 
+Verifique se o backend está em execução em http://localhost:8080. Em seguida, rode o frontend:
 ```bash
 cd frontend
 npm install
