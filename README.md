@@ -6,19 +6,19 @@ Aplicação full-stack de conciliação financeira desenvolvida para o processo 
 
 ## 📚 Índice
 
-- [🧰 Tecnologias & Requisitos](#tecnologias--requisitos)
-- [🛠️ Instalação de Ferramentas](#instalacao-de-ferramentas)
-- [🚀 Como Executar](#como-executar)
-  - [1. Clonar o Repositório](#1-clonar-o-repositorio)
+- Tecnologias e Requisitos
+- Instalação de Ferramentas
+- Como Executar
+  - [1. Clonar o Repositório](#1-clonar-o-repositório)
   - [2. Backend (Spring Boot)](#2-backend-spring-boot)
-  - [3. Acessar Banco de Dados (H2)](#3-acessar-banco-de-dados-h2)
-  - [4. Frontend (React/Vite)](#4-frontend-reactvite)
-- [🏗️ Arquitetura do Projeto](#arquitetura-do-projeto)
-- [🙋‍♂️ Desenvolvedor](#desenvolvedor)
+  - [3. Acessar Banco de Dados H2](#3-acessar-banco-de-dados-h2)
+  - [4. Frontend (ReactVite)](#4-frontend-reactvite)
+- Arquitetura do Projeto
+- Desenvolvedor
 
 ---
 
-## 🧰 Tecnologias & Requisitos
+## 🧰 Tecnologias e Requisitos
 
 ### 🔙 Backend
 
