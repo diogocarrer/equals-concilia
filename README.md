@@ -7,9 +7,9 @@ Aplicação full-stack de conciliação financeira desenvolvida para o processo 
 ## 📚 Índice
 
 - [🧰 Tecnologias & Requisitos](#tecnologias--requisitos)
-- [🛠️ Instalação de Ferramentas](#instalação-de-ferramentas)
+- [🛠️ Instalação de Ferramentas](#instalacao-de-ferramentas)
 - [🚀 Como Executar](#como-executar)
-  - [1. Clonar o Repositório](#1-clonar-o-repositório)
+  - [1. Clonar o Repositório](#1-clonar-o-repositorio)
   - [2. Backend (Spring Boot)](#2-backend-spring-boot)
   - [3. Acessar Banco de Dados (H2)](#3-acessar-banco-de-dados-h2)
   - [4. Frontend (React/Vite)](#4-frontend-reactvite)
@@ -141,42 +141,49 @@ O projeto está dividido em duas camadas principais: backend (API REST em Java) 
 ```bash
 equals-concilia/
 ├── backend/
-│   ├── pom.xml                          # Gerenciador de dependências Maven
+│   ├── pom.xml                                # Gerenciador de dependências Maven
 │   ├── src/
 │   │   └── main/
 │   │       ├── java/com/equals/concilia/
 │   │       │   ├── config/
-│   │       │   │   └── StartupRunner.java            # Executa carga automática do arquivo .txt ao iniciar o sistema
+│   │       │   │   └── StartupRunner.java            # Executa a leitura automática do arquivo .txt na inicialização
 │   │       │   ├── controller/
-│   │       │   │   └── ParserController.java         # Endpoints REST para upload e visualização dos dados
+│   │       │   │   ├── ParserController.java         # Endpoints REST para listar e filtrar transações
+│   │       │   │   └── HomeController.java           # Página HTML simples com links úteis da API
 │   │       │   ├── model/
-│   │       │   │   ├── Header.java                   # Modelo para linha header do arquivo
-│   │       │   │   ├── Trailer.java                  # Modelo para linha trailer
-│   │       │   │   └── Transacao.java                # Entidade JPA principal da aplicação (representa uma venda)
+│   │       │   │   ├── Header.java                   # Modelo JPA para a linha do tipo header
+│   │       │   │   ├── Trailer.java                  # Modelo JPA para a linha do tipo trailer
+│   │       │   │   └── Transacao.java                # Modelo JPA principal, representa uma venda (linha detalhe)
 │   │       │   ├── repository/
+│   │       │   │   ├── HeaderRepository.java         # Interface JPA para persistência do header
+│   │       │   │   ├── TrailerRepository.java        # Interface JPA para persistência do trailer
 │   │       │   │   └── TransacaoRepository.java      # Interface JPA para persistência das transações
 │   │       │   ├── service/
-│   │       │   │   └── ArquivoParserService.java     # Serviço responsável por ler, interpretar e salvar os dados
+│   │       │   │   └── ArquivoParserService.java     # Serviço que faz a leitura, parsing e salvamento dos dados
 │   │       │   └── ConciliaApplication.java          # Classe principal da aplicação Spring Boot
 │   │       └── resources/
-│   │           ├── application.properties            # Configuração do banco de dados e porta do servidor
+│   │           ├── application.properties            # Configuração do banco H2, console e Flyway
 │   │           ├── db/migration/
-│   │           │   └── V1_create_transacao_table.sql # Script Flyway para criação da tabela no banco
+│   │           │   ├── V1__create_transacao_table.sql        # Script Flyway para criar a tabela de transações
+│   │           │   └── V2__create_header_trailer_tables.sql  # Script Flyway para criar as tabelas de header e trailer
 │   │           └── data/
-│   │               └── arquivo.txt                   # Arquivo de exemplo com dados brutos de transações
+│   │               └── arquivo.txt                   # Arquivo de exemplo com as transações brutas
 │
 ├── frontend/
-│   ├── App.jsx                          # Componente principal da aplicação
-│   ├── main.jsx                         # Ponto de entrada React (createRoot)
+│   ├── App.jsx                              # Componente raiz da aplicação React
+│   ├── main.jsx                             # Ponto de entrada da aplicação (ReactDOM.createRoot)
 │   ├── pages/
-│   │   └── ReportPage.jsx               # Página principal com filtro e relatório de transações
+│   │   └── ReportPage.jsx                   # Página principal: carrega filtros e exibe relatório
 │   ├── components/
-│   │   ├── Filter.jsx                   # Formulário de filtros para buscar transações
-│   │   └── TransactionsTable.jsx       # Tabela com os dados das transações filtradas
-│   └── api/
-│       └── transactions.js             # Comunicação com a API backend via axios
+│   │   ├── Filter.jsx                       # Formulário com campos de filtro (data, valor, bandeira, etc.)
+│   │   └── TransactionsTable.jsx           # Tabela que exibe os dados das transações
+│   ├── api/
+│   │   └── transactions.js                 # Funções que fazem requisições HTTP para a API backend
+│   └── utils/
+│       └── exportToPDF.js                  # Função utilitária para exportar o relatório de transações em PDF
 │
-└── README.md
+└── README.md                                # Documentação e instruções de uso do projeto
+
 ```
 
 ---
